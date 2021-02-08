@@ -1,11 +1,12 @@
 import React, { useEffect } from 'react';
 import { useParams } from 'react-router';
 import axios from 'axios';
-import { Icon } from 'semantic-ui-react'
+import { Icon } from 'semantic-ui-react';
 
 import { useStateValue } from "../state";
 import { apiBaseUrl } from "../constants";
 import { Patient } from './../types';
+import { addSinglePatient } from './../state/reducer';
 
 
 const SinglePatient: React.FC = _props => {
@@ -15,7 +16,7 @@ const SinglePatient: React.FC = _props => {
   useEffect(() => {
     if (patient?.id !== id) {
       axios.get<Patient>(`${apiBaseUrl}/patients/${id}`).then(response => {
-        dispatch({ type: "ADD_SINGLE_PATIENT", payload: response.data });
+        dispatch(addSinglePatient(response.data));
       });
     }
   }, [patient, dispatch, id]);
