@@ -7,10 +7,11 @@ import { useStateValue } from "../state";
 import { apiBaseUrl } from "../constants";
 import { Patient, Entry } from './../types';
 import { addSinglePatient } from './../state/reducer';
+import EntryDetails from './Entries/EntryDetails';
 
 
 const SinglePatient: React.FC = _props => {
-  const [{ patient, diagnoses }, dispatch] = useStateValue();
+  const [{ patient }, dispatch] = useStateValue();
   const { id } = useParams<{ id: string }>();
 
   useEffect(() => {
@@ -35,11 +36,8 @@ const SinglePatient: React.FC = _props => {
       <p>occupation: {patient?.occupation}</p>
       <h4>Entries</h4>
       {patient?.entries.map((e: Entry) => (
-        <div key={e.description}>
-          <p>{e.description}</p>
-          <ul>
-            {e.diagnosisCodes?.map(code => (<li key={code}>{code} {diagnoses.find(d => d.code === code)?.name}</li>))}
-          </ul>
+        <div style={{ border: '2px solid grey', margin: '10px', padding: '5px', borderRadius: '10px' }}>
+          <EntryDetails entry={e} />
         </div>
       ))}
     </React.Fragment>
